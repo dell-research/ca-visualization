@@ -1,0 +1,101 @@
+<html>
+   <head>
+   
+   <link rel="stylesheet" type="text/css" href="static/style.css" />
+   
+   <script type="text/javascript" src="static/paper/paper-full.min.js"></script>
+   <script type="text/paperscript" src="static/drawgesture.js" canvas="gesture"></script>
+   
+   <script type="text/javascript">     
+     var evtSrc = new EventSource("/subscribe");
+
+     var paperscript = {};
+     evtSrc.onmessage = function(e) {
+         var data = JSON.parse(e.data);
+         var msgtype = data.msgtype;
+         
+         if(msgtype) {
+            var type = msgtype.toLowerCase();
+            if(type == "gesture") {
+                // Show gesture stats
+                var metricsReport = "<h2>Classification Metrics</h2>";
+                for(var n = 0; n < data.features.length; n++) {
+                    var feature = data.features[n];
+                    metricsReport = metricsReport + feature.name + " : " + feature.value + "<br />";  
+                }
+                document.getElementById("metrics").innerHTML = metricsReport;
+            
+                // Draw gesture graphics
+                paperscript.drawgesture(data);   
+            } else if(type == "screeninfo") {
+                // Record the screen size
+                paperscript.readscreeninfo(data);
+            } else if(type == "lockout") {
+                // Change canvas color, then change back after a period of time
+                // Colors should match div#paperscript and canvas#gesture backgrounds in style.css
+                document.getElementById("gesture").setAttribute("style", "background-color: rgb(37,37,37);");
+                
+                setTimeout(function() {
+                    document.getElementById("gesture").setAttribute("style", "background-color: rgb(238,238,238);");
+                }, 5000);
+            } else {
+                console.log("WARNING: Unknown type: " + type);
+            }
+         }
+     };
+     
+     function show(divname) {
+        var item = document.getElementById(divname);
+        if(item) {
+            if(item.className == 'hidden') {
+                item.className = 'visible';
+            }
+        }
+     }
+     
+     function hide(divname) {
+        var item = document.getElementById(divname);
+        if(item) {
+            if(item.className == 'visible') {
+                item.className = 'hidden';
+            }
+        }
+     }
+     </script>
+    
+   </head>
+   <body>
+     <div id="page-container">
+     
+         <div id="header">
+	        <h1 id="title">Dell Continuous Authentication</h1>
+	     </div>
+	     
+	     <div id="paperscript">
+	       <canvas id="gesture"></canvas>
+	       <img src="static/venue.png">
+	     </div>
+	     <div id="about" class="textcontent">
+	        <h2>About</h2>
+	        <a onMouseOver="show('ifaces')" onMouseOut="hide('ifaces')" href="javascript:void(0)">(Hover to show addresses)</a>
+	        <div id="ifaces" class="hidden">
+		        {% for iface in ifaces %}
+		        http://{{ iface.address }}:5000/demopost/
+		        {% endfor %}
+	        </div>
+	        <br />
+	        <br />
+	        green = min touch area observed along a gesture<br />
+	        red = max touch area <br />
+	        <hr>
+	     </div>
+	     <div id="metrics" class="textcontent"></div>
+	     <div id="footer" class="textcontent">
+		     Dell Research <br/>
+		     Irwin Reyes (irwin_reyes@dell.com) <br />
+		     Carrie Gates (carrie_gates@dell.com)
+	     </div>
+  
+     </div>
+   </body>
+ </html>

@@ -1,0 +1,75 @@
+body {
+	background: rgb(0,125,184);
+}
+
+div#page-container {
+    width: 760px;
+    margin: auto;
+    
+    background: white;
+}
+
+div#header {
+	height: 50px;
+	
+	background: rgb(238,238,238);
+	
+	text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+}
+
+h1, h2 {
+	font-family: "Trebuchet MS", Arial, Sans-Serif;
+}
+
+div#paperscript {
+    float: left;
+    
+    width: 360px;
+    
+    padding-top: 10px;
+    padding-bottom: 10px;
+    
+    background: rgb(37,37,37);
+}
+
+canvas#gesture {
+    /** Has to match CANVAS_X and CANVAS_Y in drawgesture.js **/
+	width: 333px;
+	height: 533px;
+	
+	margin-left: auto;
+	margin-right: auto;
+	
+	background: rgb(238,238,238);
+    
+    display: block;
+}
+
+div.textcontent {
+	padding: 10px 10px 10px 10px;
+	font-family: Helvetica;
+}
+
+div#about {
+	margin-left: 360px;
+}
+
+div.visible {
+	display: block;
+}
+
+div.hidden {
+	display: none;
+}
+
+div#metrics {
+	margin-left: 360px;
+}
+
+div#footer {
+	clear: both;
+	
+	background: rgb(238,238,238);
+}

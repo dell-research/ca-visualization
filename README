@@ -1,0 +1,13 @@
+CONTINUOUS AUTHENTICATION VISUALIZATION SERVER
+
+Dependencies:
+- Python 2.7
+    --> gevent
+    --> flask
+    --> netifaces
+    
+Recommend setting up a virtualenv and using pip to install
+the latest versions of those modules
+
+Run the vis.py script and point browser to http://(host address):5000/ .
+The address the continuous authentication app should use will be displayed on the web interface.
